@@ -13,19 +13,15 @@ namespace SQLServerForExcel
             string sql
         )
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                // Create SqlCommand
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(sql, connection);
 
-                    var result = command.ExecuteScalar();
+            connection.Open();
 
-                    if (result is null) return ExcelError.ExcelErrorValue;
-                    else return result.ToString() ?? string.Empty;
-                }
-            }
+            var result = command.ExecuteScalar();
+
+            if (result is null) return ExcelError.ExcelErrorValue;
+            else return result.ToString() ?? string.Empty;
         }
     }
 }
