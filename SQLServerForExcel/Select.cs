@@ -6,10 +6,13 @@ namespace SQLServerForExcel
     public class Select
     {
         [ExcelFunction(IsThreadSafe = true, Description = "Select Scalar")]
-        public static object SelectScalar(string sql)
+        public static object SelectScalar(
+            [ExcelArgument(Name = "connectionString", Description = "SQL Server connection string")]
+            string connectionString,
+            [ExcelArgument(Name = "sql", Description = "SQL string to be executed against the server")]
+            string sql
+        )
         {
-            string connectionString = "Data Source=DESKTOP-8M9VJFP\\SQLEXPRESS;Initial Catalog=PowerBI;Trusted_Connection=True;";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Create SqlCommand
